@@ -27,15 +27,19 @@ export default {
 			recommends: [],
 		}
 	},
+	created(){
+		this.getHomeMultidata()
+	},
 	mounted(){
-    // this.getHomeMultidata()
+    
 	},
 	methods: {
     getHomeMultidata(){
 			getHomeMultidata().then(res => {
 				// this.result = res
-				this.banners = res.data.banner.list
-				this.recommends = res.data.recommends.list
+				this.banners = res.data[1]
+				// this.recommends = res.data.recommends.list
+				// console.log(res)
 			})
 		}
 	}
@@ -52,10 +56,19 @@ export default {
 		background-color: var(--color-tint);
 		color: #fff;
 
-		position: fixed;
+		/* position: fixed; */
 		left: 0;
 		right: 0;
 		top: 0;
-		z-index: 0;
+		z-index: 9;
+	}
+
+	.content {
+		overflow: hidden;
+		position: absolute;
+		top: 44px;
+		bottom: 49px;
+		left: 0;
+		right: 0;
 	}
 </style>

@@ -1,7 +1,8 @@
 <template>
 	<div id="custom-swiper">
     <div class="swiper" 
-		  @touchstart="touchStart" @touchmove="touchMove" 
+		  @touchstart="touchStart" 
+			@touchmove="touchMove" 
 			@touchend="touchEnd"
 		>
 			<slot></slot>
@@ -10,8 +11,9 @@
 		<div class="indicator">
 			<slot name="indicator" v-if="showIndicator && slideCount > 1">
 				<div class="indi-item" 
+				  v-for="(item, index) in slideCount"
 				  :class="{active: index === currentIndex - 1}" 
-				  v-for="(item, index) in slideCount" :key="index"
+				  :key="index"
 				></div>
 			</slot>
 		</div>
@@ -48,15 +50,21 @@ export default {
 			scrolling: false // 是否正在滚动
 		}
 	},
-	mounted(){
+	mounted: function(){
+		// 1.操作 DOM 在前后添加 Slide  
+		setTimeout(() => {
+			this.handleDom()
 
+			// 2.开启定时器
+			this.startTimer()
+		}, 3000)
 	},
 	methods: {
 		/**
 		 * 定时器操作
 		 */
 		startTimer: function(){
-			this.playTimer = window.setTerval(() => {
+			this.playTimer = window.setInterval(() => {
 				this.currentIndex++
 				this.scrollContent(-this.currentIndex * this.totalWidth)
 			}, this.interval)
@@ -75,9 +83,9 @@ export default {
 			// 1.开始滚动动画
 			this.swiperStyle.transition = 'transform ' + this.animDuration + 'ms'
 			this.setTransform(currentPosition)
-
+    
 			// 2.判断滚动到的位置
-			this.checkoutPosition()
+			this.checkPosition()
 
 			// 3.滚动完成
 			this.scrolling = false
@@ -86,21 +94,20 @@ export default {
 		/**
 		 * 校验正确的滚动位置
 		 */
-		checkoutPosition: function(){
+		checkPosition: function(){
 			window.setTimeout(() => {
 				// 1.校验正确的位置
 				this.swiperStyle.transition = '0ms'
 				if (this.currentIndex >= this.slideCount + 1) {
 					this.currentIndex = 1
-					// this.setTransform(-this.currentIndex * this.totalWidth)
+					this.setTransform(-this.currentIndex * this.totalWidth)
 				} else if (this.currentIndex <= 0) {
 					this.currentIndex = this.slideCount
-					// this.setTransform(-this.currentIndex * this.totalWidth)
+					this.setTransform(-this.currentIndex * this.totalWidth)
 				}
-				this.setTransform(-this.currentIndex * this.totalWidth)
 
 				// 2.结束移动后的回调
-				this.$emit('transitionEnd', this.currentIndex - 1)
+				this.$emit('transitionEnd', this.currentIndex-1)
 			}, this.animDuration)
 		},
 		 
@@ -108,9 +115,10 @@ export default {
 		 *  设置滚动的位置
 		 */ 
 		setTransform: function(position){
-			this.siwperStyle.transform = `translated3d(${position}px, 0, 0)`
-			this.swiperStyle['-webkit-transform'] = `translated3d(${position}px), 0, 0`
-			this.swiperStyle['-ms-transform'] = `translated3d(${position}px), 0, 0`
+			// console.log(position)
+			this.swiperStyle.transform = `translate3d(${position}px, 0, 0)`
+			this.swiperStyle['-webkit-transform'] = `translate3d(${position}px), 0, 0`
+			this.swiperStyle['-ms-transform'] = `translate3d(${position}px), 0, 0`
 		},
 
 		/**
@@ -179,7 +187,7 @@ export default {
 			}
 
 			// 3.移动到正确的位置
-			this.scrollCountent(-this.currentIndex * this.totalWidth)
+			this.scrollContent(-this.currentIndex * this.totalWidth)
 
 			// 4.移动完成后重新开启定时器
 			this.startTimer()
@@ -202,7 +210,7 @@ export default {
 
 			// 2.修改 index 和位置
 			this.currentIndex += num
-			this.scrollCountent(-this.currentIndex * this.totalWidth)
+			this.scrollContent(-this.currentIndex * this.totalWidth)
 
 			// 3.添加定时器
 			this.startTimer()

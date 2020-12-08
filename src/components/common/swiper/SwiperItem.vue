@@ -1,5 +1,5 @@
 <template>
-	<div clss="slide">
+	<div class="slide">
     <slot></slot>
 	</div>
 </template>
@@ -17,5 +17,6 @@ export default {
 	}
 	.slide img {
 		width: 100%;
+		height: 100%;
 	}
 </style>

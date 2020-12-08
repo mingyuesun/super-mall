@@ -3,8 +3,7 @@ import axios from 'axios'
 export function request(config){
 	// 1. 创建 axios 实例
 	const instance = axios.create({
-		// todo: 获取最新的接口地址
-		baseURL: 'http://123.207.32.32:8000',
+		baseURL: 'https://www.oct1001.icu/api',
 		timeout: 5000
 	})
 
