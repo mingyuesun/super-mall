@@ -38,8 +38,7 @@ export default {
 			getHomeMultidata().then(res => {
 				// this.result = res
 				this.banners = res.data[1]
-				// this.recommends = res.data.recommends.list
-				// console.log(res)
+				this.recommends = res.data[0]
 			})
 		}
 	}

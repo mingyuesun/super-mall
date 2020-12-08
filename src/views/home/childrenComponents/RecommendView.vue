@@ -1,9 +1,9 @@
 <template>
 	<div class="recommend">
-    <div class="recommend-item" v-for="item in recommends" :key="item.title">
-		  <a :heft="item.link">
-				<img :src="item.image" alt="">
-				<div>{{item.title}}</div>
+    <div class="recommend-item" v-for="item in recommends" :key="item.sp_home_id">
+		  <a>
+				<img :src="item.sp_home_ico" alt="">
+				<div class="recommend-item-title">{{item.sp_home_title}}</div>
 			</a>
 		</div> 
 	</div>
@@ -26,12 +26,12 @@ export default {
 <style>
   .recommend {
 		display: flex;
+		flex-wrap: wrap;
 		width: 100%;
 		text-align: center;
 		font-size: 12px;
-
-		padding: 10px 0 20px;
-		border-bottom: 10px solid #eee;
+		padding: 15px 0 25px;
+		border-bottom: 8px solid #eee;
 	}
 
 	.recommend-item {
@@ -41,6 +41,7 @@ export default {
 	.recommend-item img {
 		width: 70px;
 		height: 70px;
-		margin-bottom: 10px;
+		margin: 5px 0;
 	}
+
 </style>
