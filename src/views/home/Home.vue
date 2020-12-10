@@ -6,12 +6,19 @@
     <home-swiper :banners="banners"></home-swiper>
     <recommend-view :recommends="recommends"></recommend-view>
     <feature-view />
+		<tab-control :titles="this.titles" @tabClick="tabClick"/>
   </div>
 </template>
 
 <script>
 import { getHomeMultidata } from 'request/home'
+// 公共组件
 import NavBar from 'components/common/navbar/NavBar'
+
+// 业务组件
+import TabControl from 'components/content/tabControl/TabControl'
+
+// 子组件
 import HomeSwiper from './childrenComponents/HomeSwiper'
 import RecommendView from './childrenComponents/RecommendView'
 import FeatureView from './childrenComponents/FeatureView.vue'
@@ -19,15 +26,18 @@ import FeatureView from './childrenComponents/FeatureView.vue'
 export default {
   name: 'Home',
   components: {
-    NavBar,
+		NavBar,
+		TabControl,
     HomeSwiper,
     RecommendView,
-    FeatureView
+		FeatureView
   },
   data() {
     return {
       banners: [],
-      recommends: []
+			recommends: [],
+			titles: ["流行", "新款", "精选"],
+			currentType: 'pop'
     }
   },
   created() {
@@ -41,7 +51,20 @@ export default {
         this.banners = res.data[1]
         this.recommends = res.data[0]
       })
-    }
+		},
+		tabClick(index) {
+			switch (index) {
+        case 0:
+				  this.currentType = 'pop'
+				  break
+				case 1:
+					this.currentType - 'new'
+					break
+			  case 2:
+					this.currentType = 'sell'
+					break		
+			}
+		}
   }
 }
 </script>
