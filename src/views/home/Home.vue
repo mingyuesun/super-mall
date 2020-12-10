@@ -48,9 +48,9 @@ export default {
 
 <style scoped>
 #home {
-  height: 100vh;
-	position: relative;
-	margin-bottom: 49px;
+  /* height: 100vh; */
+	/* position: relative; */
+	padding: 44px 0 49px;
 }
 
 .home-nav {

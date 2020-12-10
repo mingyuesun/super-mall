@@ -13,9 +13,6 @@ export default {
 </script>
 
 <style scoped>
-  .feature {
-		margin-bottom:49px;
-	}
   .feature img {
 		width: 100%;
 	}
