@@ -20,5 +20,7 @@ export default {
 	left: 0;
 	right: 0;
 	box-shadow: 0 -3px 3px rgba(100,100,100, .2);
+	z-index: 10;
+	background-color:#fff;
 }
 </style>
