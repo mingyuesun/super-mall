@@ -8,12 +8,9 @@ export function getHomeMultidata(){
 	})
 }
 
-export function getHomeGoods(type, page){
+export function getHomeGoods(params){
 	return request({
-		url: '/home/data',
-		params: {
-			type,
-			page
-		}
+		url: '/home/getHomeShowGoods',
+		params
 	})
 }

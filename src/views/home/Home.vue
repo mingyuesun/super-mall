@@ -7,16 +7,16 @@
     <recommend-view :recommends="recommends"></recommend-view>
     <feature-view />
 		<tab-control :titles="this.titles" @tabClick="tabClick"/>
+		<goods-list :goods="showGoods"/>
   </div>
 </template>
 
 <script>
-import { getHomeMultidata } from 'request/home'
+import { getHomeMultidata, getHomeGoods } from 'request/home'
 // 公共组件
 import NavBar from 'components/common/navbar/NavBar'
-
-// 业务组件
 import TabControl from 'components/content/tabControl/TabControl'
+import GoodsList from 'components/content/goods/GoodsList'
 
 // 子组件
 import HomeSwiper from './childrenComponents/HomeSwiper'
@@ -28,6 +28,7 @@ export default {
   components: {
 		NavBar,
 		TabControl,
+		GoodsList,
     HomeSwiper,
     RecommendView,
 		FeatureView
@@ -37,13 +38,30 @@ export default {
       banners: [],
 			recommends: [],
 			titles: ["流行", "新款", "精选"],
-			currentType: 'pop'
+			// currentType: 'syn',
+			sortType: 'syn',
+			goods: {
+				'syn': { page: 1, list: [] },
+				'new': { page: 1, list: [] },
+				'sell': { page: 1, list: [] }
+			},
+			// pageSize: 30
     }
-  },
+	},
+  computed: {
+    showGoods(){
+			return this.goods[this.sortType].list
+		}
+	},
   created() {
-    this.getHomeMultidata()
+		this.getHomeMultidata()
+		this.getHomeGoods('syn')
+		this.getHomeGoods('new')
+		this.getHomeGoods('sell')
   },
-  mounted() {},
+  mounted() {
+		
+	},
   methods: {
     getHomeMultidata() {
       getHomeMultidata().then((res) => {
@@ -52,16 +70,26 @@ export default {
         this.recommends = res.data[0]
       })
 		},
+		async getHomeGoods(type) {
+      await getHomeGoods({
+				page: this.goods[type].page,
+				pageSize: this.pageSize,
+				sortType: type
+			}).then(res => {
+				this.goods[type].list.push(...res.data)
+				this.goods[type].page += 1
+			})
+		},
 		tabClick(index) {
 			switch (index) {
         case 0:
-				  this.currentType = 'pop'
+				  this.sortType = 'syn'
 				  break
 				case 1:
-					this.currentType - 'new'
+					this.sortType = 'new'
 					break
 			  case 2:
-					this.currentType = 'sell'
+					this.sortType = 'sell'
 					break		
 			}
 		}
