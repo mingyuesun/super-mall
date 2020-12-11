@@ -5,7 +5,7 @@ export function request(config){
 	const instance = axios.create({
 		// baseURL: 'https://www.oct1001.icu/api',
 		baseURL: 'http://www.hj0819.top:44369/api',
-		timeout: 5000
+		timeout: 10000
 	})
 
 	// 2. axios 的拦截器

@@ -2,7 +2,7 @@ import { Goods } from "network/detail"
 <template>
 	<div class="goods-item">
 		<div class="goods-num">
-			<img :src="goodsItem.goodsLogo" alt="">
+			<img :src="goodsItem.goodsLogo" alt="" @load="imageLoad">
 			<span>已售{{goodsItem.goodsBuyNum || sellCountFilter}}件</span>
 		</div>
 		<div class="goods-info">
@@ -30,6 +30,11 @@ export default {
 	filters: {
 		sellCountFilter(value) {
 			return value > 10000 ? `${(value/1000).toFixed}(1)万` : value
+		}
+	},
+  methods: {
+		imgLoad() {
+			this.$bus.$emit('itemImageLoad')
 		}
 	}
 }
